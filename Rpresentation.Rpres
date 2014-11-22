@@ -1,0 +1,58 @@
+Loblolly tree
+========================================================
+author: Joan
+date: 21-11-2014
+
+
+
+
+
+What do we know about the loblolly pine?
+========================================================
+
+Pinus taeda, commonly known as loblolly pine, is one of several pines native to the Southeastern United States, from central Texas east to Florida, and north to Delaware and southern New Jersey.
+- For its timber, the pine species is regarded as the most commercially important tree in Southeastern US
+- Loblolly pine can reach a height of 30–35 m (98–115 ft) with a diameter of 0.4–1.5 m (1.3–4.9 ft)
+- The seed cones are green, ripening pale buff-brown, 7–13 cm (2.8–5.1 in) in length, 2–3 cm (0.79–1.18 in) broad when closed, opening to 4–6 cm (1.6–2.4 in) wide, each scale bearing a sharp 3–6 mm spine
+
+Growth of Loblolly pine trees
+========================================================
+first some numbers...
+```{r}
+summary(Loblolly)
+```
+![picture of Loblolly tree](./Loblolly.jpg)
+
+
+What is the height of each individual tree related to age?
+========================================================
+- Which line is the better fit?
+The linear line or the fitted one?
+
+```{r, echo=FALSE}
+require(stats); require(graphics)
+
+plot(height ~ age, data = Loblolly, col="blue", cex = 3,
+     xlab = "Tree age (yr)", las = 1,
+     ylab = "Tree height (ft)",
+     main = "Loblolly data (all seeds) and fitted curve (seed 329)")
+fm1 <- nls(height ~ SSasymp(age, Asym, R0, lrc),
+           data = Loblolly, subset = Seed == 329)
+age <- seq(0, 30, length.out = 101)
+par(col = "green", lwd = 6)
+lines(age, predict(fm1, list(age = age)))
+
+fit1<-lm(Loblolly$height~Loblolly$age)
+yfit1<-fit1$fitted.values
+par(col = "red", lwd = 6)
+lines(Loblolly$age, yfit1)
+
+```
+What is the relation between age and height?
+========================================================
+- There is a strong correlation:
+
+```{r, echo=FALSE}
+cor(Loblolly$height, Loblolly$age)
+```
+
